@@ -7,12 +7,8 @@ import (
 )
 
 func GoogleScraper(query string, start int) []string {
-	c := colly.NewCollector()
 	var links []string
-
-	c.OnError(func(_ *colly.Response, err error) {
-		panic(err)
-	})
+	c := Init()
 
 	c.OnHTML("a", func(e *colly.HTMLElement) {
 		text := e.ChildText("h3")

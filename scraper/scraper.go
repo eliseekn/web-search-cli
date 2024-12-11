@@ -3,7 +3,23 @@ package scraper
 import (
 	"net/url"
 	"strings"
+
+	"github.com/gocolly/colly"
 )
+
+func Init() *colly.Collector {
+	c := colly.NewCollector()
+
+	c.OnError(func(_ *colly.Response, err error) {
+		panic(err)
+	})
+
+	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+	})
+
+	return c
+}
 
 func formatLink(link string, prefix string, suffix string) string {
 	link, err := url.QueryUnescape(link)
